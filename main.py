@@ -7,6 +7,11 @@ import simplejson
 
 class AffectedPopulationMap:
     def __init__(self, map: List[List[float]], pixels_per_km: float):
+        """
+        Constructor
+        :param map: the population density map as a Python array of arrays
+        :param pixels_per_km: the scale of the map (how many pixels there are in 1 km)
+        """
         self.pixels_per_km = pixels_per_km  # number of pixels in 1 km to compute the scale of the map
         self.km_per_pixel = 1 / self.pixels_per_km
         self.m_per_pixel = self.km_per_pixel * 1000
@@ -55,9 +60,9 @@ class AffectedPopulationMap:
 
 if __name__ == '__main__':
     with open('./data/map.json', 'r') as f:
-        map = simplejson.load(f)
+        map = simplejson.load(f) # load the original population density map
         obj = AffectedPopulationMap(map=map, pixels_per_km=131 / 2)
-        affected_population_map = obj.compute_affected_population_map(200)
+        affected_population_map = obj.compute_affected_population_map(200) # compute the affected population map
 
         with open('./data/affected_map.json', 'w') as aff_f:
             simplejson.dump(affected_population_map.tolist(), aff_f)
